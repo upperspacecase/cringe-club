@@ -16,7 +16,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cringe
 let isConnected = false;
 async function connectDB() {
   if (isConnected) return;
-  await mongoose.connect(MONGODB_URI, { dbName: 'test' });
+  await mongoose.connect(MONGODB_URI);
   isConnected = true;
 }
 
