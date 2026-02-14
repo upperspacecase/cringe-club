@@ -14,8 +14,38 @@ app.use(express.static(path.join(__dirname, 'public')));
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cringe-club';
 const PORT = process.env.PORT || 3000;
 
+const initialItems = [
+  'Go out looking dumb. (Go to a charity shop with a friend, have them pick out an awful outfit. Wear it on a weekend day.)',
+  'Do an impromptu speech - ting ting ting ting ting.',
+  'Say "well, this is awkward" in a convo, when it\'s really not.',
+  'Solo carolling...',
+  'Bartering in the wrong place, like the supermarket. One offer, second offer, "okay, final offer..."',
+  'Pause for exactly 5 seconds before responding to any question. Window of 2 hours. Peak hours.',
+  'Have a nap somewhere you\'re not supposed to.',
+  'Record and send an awkward conversation that you\'ve been avoiding.',
+  'Wear a snorkel for a day.'
+];
+
+const initialParticipants = ['Tim', 'Anna', 'Ieva', 'Seth', 'Tay'];
+
+async function seedIfEmpty() {
+  const itemCount = await Item.countDocuments();
+  if (itemCount === 0) {
+    await Item.insertMany(initialItems.map(text => ({ text, votes: 0 })));
+    console.log(`Seeded ${initialItems.length} challenges`);
+  }
+  const partCount = await Participant.countDocuments();
+  if (partCount === 0) {
+    await Participant.insertMany(initialParticipants.map(name => ({ name })));
+    console.log(`Seeded ${initialParticipants.length} participants`);
+  }
+}
+
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(async () => {
+    console.log('Connected to MongoDB');
+    await seedIfEmpty();
+  })
   .catch(err => console.error('MongoDB connection error:', err));
 
 // --- Items ---
