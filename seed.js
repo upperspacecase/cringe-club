@@ -20,7 +20,7 @@ const initialItems = [
 const initialParticipants = ['Tim', 'Anna', 'Ieva', 'Seth', 'Tay'];
 
 async function seed() {
-  await mongoose.connect(MONGODB_URI);
+  await mongoose.connect(MONGODB_URI, { dbName: 'test' });
   console.log('Connected to MongoDB');
 
   // Only seed if collections are empty
