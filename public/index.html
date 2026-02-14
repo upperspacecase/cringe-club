@@ -3,23 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cringe Club - Courage Challenge Tracker</title>
+  <title>Cringe Club</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Patrick+Hand&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-      --courage-pink: #e84393;
-      --courage-purple: #6c5ce7;
-      --courage-dark: #2d1b4e;
-      --courage-darker: #1a0f2e;
-      --courage-green: #00b894;
-      --courage-red: #d63031;
-      --courage-yellow: #fdcb6e;
-      --courage-blue: #74b9ff;
-      --nowhere-bg: #1a0f2e;
-      --card-bg: #2d1b4e;
-      --text-light: #dfe6e9;
-      --text-muted: #a29bba;
+      --bg: #f8f9fb;
+      --surface: #ffffff;
+      --border: #e2e5ea;
+      --border-light: #f0f1f3;
+      --text: #1a1d23;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --accent: #4f46e5;
+      --accent-light: #eef2ff;
+      --accent-hover: #4338ca;
+      --green: #10b981;
+      --green-light: #ecfdf5;
+      --red: #ef4444;
+      --red-light: #fef2f2;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+      --radius: 10px;
+      --radius-sm: 8px;
     }
 
     * {
@@ -29,65 +36,36 @@
     }
 
     body {
-      font-family: 'Patrick Hand', cursive;
-      background: var(--nowhere-bg);
-      color: var(--text-light);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Stars background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background:
-        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6), transparent),
-        radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5), transparent),
-        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.7), transparent),
-        radial-gradient(1.5px 1.5px at 15% 85%, rgba(255,255,255,0.6), transparent),
-        radial-gradient(1px 1px at 45% 45%, rgba(255,255,255,0.4), transparent),
-        radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1.5px 1.5px at 60% 75%, rgba(255,255,255,0.5), transparent),
-        radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.7), transparent);
-      pointer-events: none;
-      z-index: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
     .app {
-      position: relative;
-      z-index: 1;
       max-width: 600px;
       margin: 0 auto;
-      padding-bottom: 80px;
+      padding-bottom: 76px;
     }
 
     /* Header */
     .header {
-      text-align: center;
-      padding: 20px 16px 10px;
+      padding: 24px 20px 16px;
     }
 
     .header h1 {
-      font-family: 'Creepster', cursive;
-      font-size: 2.2rem;
-      color: var(--courage-pink);
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      letter-spacing: 2px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
     }
 
     .header .subtitle {
-      font-size: 1rem;
-      color: var(--courage-yellow);
+      font-size: 0.85rem;
+      color: var(--text-muted);
       margin-top: 2px;
-    }
-
-    .courage-emoji {
-      font-size: 2.5rem;
-      display: block;
-      margin-bottom: 4px;
+      font-weight: 400;
     }
 
     /* Tab bar */
@@ -97,201 +75,202 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: var(--courage-dark);
-      border-top: 2px solid var(--courage-purple);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
       z-index: 100;
+      padding: 0 0 env(safe-area-inset-bottom, 0);
     }
 
     .tab-btn {
       flex: 1;
-      padding: 12px;
+      padding: 10px 12px 12px;
       border: none;
       background: transparent;
       color: var(--text-muted);
-      font-family: 'Patrick Hand', cursive;
-      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: color 0.15s;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
+      gap: 3px;
     }
 
     .tab-btn.active {
-      color: var(--courage-pink);
-      background: rgba(232, 67, 147, 0.1);
+      color: var(--accent);
     }
 
     .tab-btn .tab-icon {
-      font-size: 1.4rem;
+      font-size: 1.25rem;
     }
 
     /* Tab content */
     .tab-content {
       display: none;
-      padding: 12px 16px;
+      padding: 0 16px 16px;
     }
 
     .tab-content.active {
       display: block;
     }
 
-    /* Voting tab */
-    .add-item-form {
+    /* Forms */
+    .add-item-form,
+    .add-participant-form {
       display: flex;
       gap: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
-    .add-item-form input {
+    .add-item-form input,
+    .add-participant-form input {
       flex: 1;
       padding: 10px 14px;
-      border: 2px solid var(--courage-purple);
-      border-radius: 10px;
-      background: var(--card-bg);
-      color: var(--text-light);
-      font-family: 'Patrick Hand', cursive;
-      font-size: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
       outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    .add-item-form input::placeholder {
+    .add-item-form input::placeholder,
+    .add-participant-form input::placeholder {
       color: var(--text-muted);
     }
 
-    .add-item-form input:focus {
-      border-color: var(--courage-pink);
+    .add-item-form input:focus,
+    .add-participant-form input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
     }
 
-    .add-item-form button {
+    .add-item-form button,
+    .add-participant-form button {
       padding: 10px 18px;
       border: none;
-      border-radius: 10px;
-      background: var(--courage-pink);
+      border-radius: var(--radius-sm);
+      background: var(--accent);
       color: white;
-      font-family: 'Creepster', cursive;
-      font-size: 1.1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
-      transition: transform 0.1s;
+      transition: background 0.15s, transform 0.1s;
     }
 
-    .add-item-form button:active {
-      transform: scale(0.95);
+    .add-item-form button:hover,
+    .add-participant-form button:hover {
+      background: var(--accent-hover);
     }
 
+    .add-item-form button:active,
+    .add-participant-form button:active {
+      transform: scale(0.97);
+    }
+
+    /* Item cards */
     .item-card {
-      background: var(--card-bg);
-      border: 1px solid rgba(108, 92, 231, 0.3);
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      transition: transform 0.1s;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.15s;
     }
 
-    .item-card:active {
-      transform: scale(0.99);
+    .item-card:hover {
+      box-shadow: var(--shadow);
     }
 
     .item-rank {
-      font-family: 'Creepster', cursive;
-      font-size: 1.3rem;
-      color: var(--courage-yellow);
-      min-width: 28px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 26px;
       text-align: center;
+      flex-shrink: 0;
     }
 
     .item-text {
       flex: 1;
-      font-size: 1.05rem;
-      line-height: 1.3;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: var(--text);
     }
 
     .vote-controls {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
+      gap: 1px;
+      flex-shrink: 0;
     }
 
     .vote-btn {
       border: none;
       background: transparent;
       cursor: pointer;
-      font-size: 1.3rem;
-      padding: 4px 8px;
+      font-size: 0.7rem;
+      padding: 5px 8px;
       border-radius: 6px;
-      transition: all 0.15s;
+      transition: all 0.12s;
       line-height: 1;
-    }
-
-    .vote-btn:active {
-      transform: scale(1.3);
-    }
-
-    .vote-btn.up:hover { background: rgba(0, 184, 148, 0.2); }
-    .vote-btn.down:hover { background: rgba(214, 48, 49, 0.2); }
-
-    .vote-count {
-      font-family: 'Creepster', cursive;
-      font-size: 1.2rem;
-      color: var(--courage-green);
-      min-width: 24px;
-      text-align: center;
-    }
-
-    .vote-count.negative {
-      color: var(--courage-red);
-    }
-
-    /* Tracker tab */
-    .tracker-section {
-      margin-bottom: 16px;
-    }
-
-    .add-participant-form {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .add-participant-form input {
-      flex: 1;
-      padding: 8px 12px;
-      border: 2px solid var(--courage-purple);
-      border-radius: 10px;
-      background: var(--card-bg);
-      color: var(--text-light);
-      font-family: 'Patrick Hand', cursive;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    .add-participant-form input::placeholder {
       color: var(--text-muted);
     }
 
+    .vote-btn:hover {
+      background: var(--bg);
+    }
+
+    .vote-btn.up:hover { color: var(--green); background: var(--green-light); }
+    .vote-btn.down:hover { color: var(--red); background: var(--red-light); }
+
+    .vote-btn:active {
+      transform: scale(1.2);
+    }
+
+    .vote-count {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .vote-count.positive {
+      color: var(--green);
+    }
+
+    .vote-count.negative {
+      color: var(--red);
+    }
+
+    /* Tracker */
     .add-participant-form button {
-      padding: 8px 14px;
-      border: none;
-      border-radius: 10px;
-      background: var(--courage-purple);
-      color: white;
-      font-family: 'Creepster', cursive;
-      font-size: 1rem;
-      cursor: pointer;
-      white-space: nowrap;
+      background: var(--text);
+    }
+
+    .add-participant-form button:hover {
+      background: #374151;
     }
 
     .tracker-table-wrapper {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      border-radius: 12px;
-      border: 1px solid rgba(108, 92, 231, 0.3);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      background: var(--surface);
     }
 
     .tracker-table {
@@ -301,51 +280,56 @@
     }
 
     .tracker-table th {
-      background: var(--courage-dark);
-      padding: 10px 8px;
-      font-family: 'Creepster', cursive;
-      font-size: 0.95rem;
-      color: var(--courage-yellow);
+      background: var(--bg);
+      padding: 10px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       position: sticky;
       top: 0;
       white-space: nowrap;
-      border-bottom: 2px solid var(--courage-purple);
+      border-bottom: 1px solid var(--border);
     }
 
     .tracker-table th:first-child {
       text-align: left;
-      min-width: 160px;
+      min-width: 180px;
       position: sticky;
       left: 0;
       z-index: 2;
+      background: var(--bg);
     }
 
     .tracker-table td {
-      padding: 8px;
-      border-bottom: 1px solid rgba(108, 92, 231, 0.15);
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-light);
       text-align: center;
-      background: var(--card-bg);
+      background: var(--surface);
     }
 
     .tracker-table td:first-child {
       text-align: left;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
+      line-height: 1.4;
       position: sticky;
       left: 0;
       z-index: 1;
-      background: var(--card-bg);
+      background: var(--surface);
+      color: var(--text);
     }
 
-    .tracker-table tr:nth-child(even) td {
-      background: rgba(45, 27, 78, 0.8);
-    }
-
-    .tracker-table tr:nth-child(even) td:first-child {
-      background: rgba(45, 27, 78, 0.8);
+    .tracker-table tr:last-child td {
+      border-bottom: none;
     }
 
     .tracker-table tr:hover td {
-      background: rgba(108, 92, 231, 0.15);
+      background: var(--accent-light);
+    }
+
+    .tracker-table tr:hover td:first-child {
+      background: var(--accent-light);
     }
 
     /* Custom checkbox */
@@ -358,30 +342,35 @@
     .custom-check {
       appearance: none;
       -webkit-appearance: none;
-      width: 28px;
-      height: 28px;
-      border: 2px solid var(--courage-purple);
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
       border-radius: 6px;
-      background: transparent;
+      background: var(--surface);
       cursor: pointer;
       position: relative;
-      transition: all 0.2s;
+      transition: all 0.15s;
+    }
+
+    .custom-check:hover {
+      border-color: var(--accent);
     }
 
     .custom-check:checked {
-      background: var(--courage-green);
-      border-color: var(--courage-green);
+      background: var(--accent);
+      border-color: var(--accent);
     }
 
     .custom-check:checked::after {
-      content: '✓';
+      content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 18px;
-      font-weight: bold;
-      color: white;
+      top: 3px;
+      left: 6px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
     }
 
     .custom-check:active {
@@ -390,100 +379,106 @@
 
     /* Section header */
     .section-title {
-      font-family: 'Creepster', cursive;
-      font-size: 1.3rem;
-      color: var(--courage-purple);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
     }
 
     /* Empty state */
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
+      padding: 48px 20px;
       color: var(--text-muted);
     }
 
-    .empty-state .scared {
-      font-size: 3rem;
-      margin-bottom: 8px;
+    .empty-state .icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
     }
 
     /* Loading */
     .loading {
       text-align: center;
-      padding: 40px;
+      padding: 48px;
       color: var(--text-muted);
-      font-size: 1.2rem;
+      font-size: 0.9rem;
     }
 
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 80px;
+      bottom: 84px;
       left: 50%;
-      transform: translateX(-50%);
-      background: var(--courage-purple);
+      transform: translateX(-50%) translateY(8px);
+      background: var(--text);
       color: white;
       padding: 10px 20px;
-      border-radius: 10px;
-      font-family: 'Patrick Hand', cursive;
-      font-size: 1rem;
+      border-radius: var(--radius-sm);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
       z-index: 200;
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.2s, transform 0.2s;
       pointer-events: none;
+      box-shadow: var(--shadow-md);
     }
 
     .toast.show {
       opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     /* Scrollbar */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
     }
     ::-webkit-scrollbar-track {
-      background: var(--nowhere-bg);
+      background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: var(--courage-purple);
-      border-radius: 3px;
+      background: var(--border);
+      border-radius: 2px;
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="header">
-      <span class="courage-emoji">🐕</span>
       <h1>Cringe Club</h1>
-      <div class="subtitle">The things I do for courage...</div>
+      <div class="subtitle">Awkward challenges, real courage</div>
     </div>
 
     <!-- Tab 1: Voting -->
     <div id="tab-vote" class="tab-content active">
-      <div class="section-title">🗳️ Challenge Proposals</div>
+      <div class="section-title">Challenge Proposals</div>
       <form class="add-item-form" onsubmit="addItem(event)">
-        <input type="text" id="new-item" placeholder="Suggest a cringeworthy challenge..." maxlength="300" />
-        <button type="submit">Add!</button>
+        <input type="text" id="new-item" placeholder="Suggest a challenge..." maxlength="300" />
+        <button type="submit">Add</button>
       </form>
       <div id="items-list">
-        <div class="loading">Loading challenges...</div>
+        <div class="loading">Loading...</div>
       </div>
     </div>
 
     <!-- Tab 2: Tracker -->
     <div id="tab-tracker" class="tab-content">
-      <div class="section-title">📋 Challenge Tracker</div>
+      <div class="section-title">Challenge Tracker</div>
       <form class="add-participant-form" onsubmit="addParticipant(event)">
         <input type="text" id="new-participant" placeholder="Add participant..." maxlength="50" />
         <button type="submit">Add</button>
       </form>
       <div id="tracker-content">
-        <div class="loading">Loading tracker...</div>
+        <div class="loading">Loading...</div>
       </div>
     </div>
   </div>
@@ -491,11 +486,11 @@
   <!-- Bottom tab bar -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('vote')">
-      <span class="tab-icon">🗳️</span>
+      <span class="tab-icon">&#9650;</span>
       <span>Challenges</span>
     </button>
     <button class="tab-btn" onclick="switchTab('tracker')">
-      <span class="tab-icon">📋</span>
+      <span class="tab-icon">&#9744;</span>
       <span>Tracker</span>
     </button>
   </div>
@@ -545,19 +540,19 @@
       if (!items.length) {
         list.innerHTML = `
           <div class="empty-state">
-            <div class="scared">😰</div>
-            <div>No challenges yet... be brave!</div>
+            <div class="icon">&#128172;</div>
+            <p>No challenges yet. Be the first!</p>
           </div>`;
         return;
       }
       list.innerHTML = items.map((item, i) => `
         <div class="item-card">
-          <div class="item-rank">#${i + 1}</div>
+          <div class="item-rank">${i + 1}</div>
           <div class="item-text">${escapeHtml(item.text)}</div>
           <div class="vote-controls">
-            <button class="vote-btn up" onclick="vote('${item._id}', 'up')" title="Upvote">▲</button>
-            <div class="vote-count ${item.votes < 0 ? 'negative' : ''}">${item.votes}</div>
-            <button class="vote-btn down" onclick="vote('${item._id}', 'down')" title="Downvote">▼</button>
+            <button class="vote-btn up" onclick="vote('${item._id}', 'up')" title="Upvote">&#9650;</button>
+            <div class="vote-count ${item.votes > 0 ? 'positive' : ''} ${item.votes < 0 ? 'negative' : ''}">${item.votes}</div>
+            <button class="vote-btn down" onclick="vote('${item._id}', 'down')" title="Downvote">&#9660;</button>
           </div>
         </div>
       `).join('');
@@ -573,7 +568,7 @@
         body: JSON.stringify({ text })
       });
       input.value = '';
-      showToast('Stupid dog! Challenge added!');
+      showToast('Challenge added');
       loadItems();
     }
 
@@ -605,8 +600,8 @@
       if (!top30.length) {
         container.innerHTML = `
           <div class="empty-state">
-            <div class="scared">😰</div>
-            <div>No challenges to track yet!</div>
+            <div class="icon">&#128203;</div>
+            <p>No challenges to track yet.</p>
           </div>`;
         return;
       }
@@ -614,8 +609,8 @@
       if (!participants.length) {
         container.innerHTML = `
           <div class="empty-state">
-            <div class="scared">🐕</div>
-            <div>No participants yet! Add someone above.</div>
+            <div class="icon">&#128101;</div>
+            <p>No participants yet. Add someone above.</p>
           </div>`;
         return;
       }
@@ -670,7 +665,7 @@
         return;
       }
       input.value = '';
-      showToast(`${name} joined the Cringe Club!`);
+      showToast(`${name} added`);
       loadTracker();
     }
 
