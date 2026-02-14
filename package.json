@@ -1,0 +1,15 @@
+{
+  "name": "cringe-club",
+  "version": "1.0.0",
+  "description": "Courage the Cowardly Dog themed awkward challenge tracker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3",
+    "dotenv": "^16.3.1"
+  }
+}
