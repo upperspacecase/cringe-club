@@ -3,18 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 
-const Item = require('./models/Item');
-const Participant = require('./models/Participant');
-const Completion = require('./models/Completion');
+const Item = require('../models/Item');
+const Participant = require('../models/Participant');
+const Completion = require('../models/Completion');
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cringe-club';
-const PORT = process.env.PORT || 3000;
 
-// Cache the MongoDB connection between serverless invocations
+// Cache MongoDB connection between serverless invocations
 let isConnected = false;
 async function connectDB() {
   if (isConnected) return;
@@ -22,7 +20,6 @@ async function connectDB() {
   isConnected = true;
 }
 
-// Connect before every request (no-op if already connected)
 app.use(async (req, res, next) => {
   try {
     await connectDB();
@@ -58,7 +55,7 @@ app.post('/api/items', async (req, res) => {
 
 app.post('/api/items/:id/vote', async (req, res) => {
   try {
-    const { direction } = req.body; // 'up' or 'down'
+    const { direction } = req.body;
     const increment = direction === 'down' ? -1 : 1;
     const item = await Item.findByIdAndUpdate(
       req.params.id,
@@ -137,23 +134,4 @@ app.post('/api/completions', async (req, res) => {
   }
 });
 
-// Serve index.html for all non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Local development: start with app.listen
-// Vercel: export the app as a module
-if (process.env.VERCEL) {
-  module.exports = app;
-} else {
-  connectDB()
-    .then(() => {
-      console.log('Connected to MongoDB');
-      app.listen(PORT, () => console.log(`Cringe Club running on http://localhost:${PORT}`));
-    })
-    .catch(err => {
-      console.error('Failed to start:', err.message);
-      process.exit(1);
-    });
-}
+module.exports = app;
