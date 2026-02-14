@@ -14,10 +14,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cringe-club';
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
 // --- Items ---
 
 app.get('/api/items', async (req, res) => {
@@ -128,6 +124,20 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Cringe Club running on port ${PORT}`);
+async function start() {
+  await mongoose.connect(MONGODB_URI);
+  console.log('Connected to MongoDB');
+
+  const itemCount = await Item.countDocuments();
+  const partCount = await Participant.countDocuments();
+  console.log(`Database has ${itemCount} challenges and ${partCount} participants`);
+
+  app.listen(PORT, () => {
+    console.log(`Cringe Club running on http://localhost:${PORT}`);
+  });
+}
+
+start().catch(err => {
+  console.error('Failed to start:', err.message);
+  process.exit(1);
 });
