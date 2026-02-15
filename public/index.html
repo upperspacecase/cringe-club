@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,9 +23,9 @@
       --green-light: #ecfdf5;
       --red: #ef4444;
       --red-light: #fef2f2;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 6px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
       --radius: 10px;
       --radius-sm: 8px;
     }
@@ -232,8 +233,15 @@
       background: var(--bg);
     }
 
-    .vote-btn.up:hover { color: var(--green); background: var(--green-light); }
-    .vote-btn.down:hover { color: var(--red); background: var(--red-light); }
+    .vote-btn.up:hover {
+      color: var(--green);
+      background: var(--green-light);
+    }
+
+    .vote-btn.down:hover {
+      color: var(--red);
+      background: var(--red-light);
+    }
 
     .vote-btn:active {
       transform: scale(1.2);
@@ -291,6 +299,20 @@
       top: 0;
       white-space: nowrap;
       border-bottom: 1px solid var(--border);
+    }
+
+    .participant-count {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: none;
+      letter-spacing: 0;
+      margin-top: 2px;
+    }
+
+    .participant-count.all-done {
+      color: var(--green);
     }
 
     .tracker-table th:first-child {
@@ -439,15 +461,18 @@
       width: 4px;
       height: 4px;
     }
+
     ::-webkit-scrollbar-track {
       background: transparent;
     }
+
     ::-webkit-scrollbar-thumb {
       background: var(--border);
       border-radius: 2px;
     }
   </style>
 </head>
+
 <body>
   <div class="app">
     <div class="header">
@@ -592,9 +617,9 @@
 
     function renderTracker() {
       const container = document.getElementById('tracker-content');
-      const top30 = items.slice(0, 30);
+      const allItems = [...items]; // already sorted by rank from the API
 
-      if (!top30.length) {
+      if (!allItems.length) {
         container.innerHTML = `
           <div class="empty-state">
             <div class="icon">&#128203;</div>
@@ -617,25 +642,41 @@
         completionMap[`${c.itemId}_${c.participant}`] = c;
       });
 
+      // Count completions per participant (out of total challenges)
+      const totalChallenges = allItems.length;
+      function getCompletionCount(participantName) {
+        let count = 0;
+        allItems.forEach(item => {
+          const key = `${item._id}_${participantName}`;
+          const comp = completionMap[key];
+          if (comp && comp.completed) count++;
+        });
+        return count;
+      }
+
       container.innerHTML = `
         <div class="tracker-table-wrapper">
           <table class="tracker-table">
             <thead>
               <tr>
                 <th>Challenge</th>
-                ${participants.map(p => `<th>${escapeHtml(p.name)}</th>`).join('')}
+                ${participants.map(p => {
+        const done = getCompletionCount(p.name);
+        const allDone = done === totalChallenges && totalChallenges > 0;
+        return `<th>${escapeHtml(p.name)}<span class="participant-count${allDone ? ' all-done' : ''}">${done}/${totalChallenges}</span></th>`;
+      }).join('')}
               </tr>
             </thead>
             <tbody>
-              ${top30.map(item => `
+              ${allItems.map((item, i) => `
                 <tr>
-                  <td>${escapeHtml(item.text)}</td>
+                  <td>${i + 1}. ${escapeHtml(item.text)}</td>
                   ${participants.map(p => {
-                    const key = `${item._id}_${p.name}`;
-                    const comp = completionMap[key];
-                    const isDone = comp && comp.completed;
-                    const dateStr = isDone ? formatDate(comp.completedAt) : '';
-                    return `
+        const key = `${item._id}_${p.name}`;
+        const comp = completionMap[key];
+        const isDone = comp && comp.completed;
+        const dateStr = isDone ? formatDate(comp.completedAt) : '';
+        return `
                       <td>
                         <div class="check-cell">
                           <button class="date-toggle ${isDone ? 'completed' : ''}"
@@ -644,7 +685,7 @@
                           </button>
                         </div>
                       </td>`;
-                  }).join('')}
+      }).join('')}
                 </tr>
               `).join('')}
             </tbody>
@@ -680,7 +721,7 @@
 
     function formatDate(dateStr) {
       const d = new Date(dateStr);
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return `${months[d.getMonth()]} ${d.getDate()}`;
     }
 
@@ -695,4 +736,5 @@
     loadItems();
   </script>
 </body>
+
 </html>
