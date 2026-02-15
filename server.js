@@ -36,7 +36,7 @@ app.use(async (req, res, next) => {
 
 app.get('/api/items', async (req, res) => {
   try {
-    const items = await Item.find().sort({ votes: -1, createdAt: 1 });
+    const items = await Item.find().sort({ intensity: 1, votes: -1, createdAt: 1 });
     res.json(items);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -65,6 +65,20 @@ app.post('/api/items/:id/vote', async (req, res) => {
       { $inc: { votes: increment } },
       { new: true }
     );
+    if (!item) return res.status(404).json({ error: 'Item not found' });
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch('/api/items/:id/tags', async (req, res) => {
+  try {
+    const { intensity, effort } = req.body;
+    const update = {};
+    if (intensity !== undefined) update.intensity = Math.min(3, Math.max(0, Number(intensity)));
+    if (effort !== undefined) update.effort = Math.min(3, Math.max(0, Number(effort)));
+    const item = await Item.findByIdAndUpdate(req.params.id, update, { new: true });
     if (!item) return res.status(404).json({ error: 'Item not found' });
     res.json(item);
   } catch (err) {

@@ -6,28 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cringe Club</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
     :root {
-      --bg: #f8f9fb;
+      --bg: #f5f5f7;
       --surface: #ffffff;
-      --border: #e2e5ea;
-      --border-light: #f0f1f3;
-      --text: #1a1d23;
+      --border: #e5e7eb;
+      --border-light: #f3f4f6;
+      --text: #111827;
       --text-secondary: #6b7280;
       --text-muted: #9ca3af;
-      --accent: #4f46e5;
+      --accent: #6366f1;
       --accent-light: #eef2ff;
-      --accent-hover: #4338ca;
+      --accent-hover: #4f46e5;
       --green: #10b981;
       --green-light: #ecfdf5;
       --red: #ef4444;
       --red-light: #fef2f2;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --orange: #f59e0b;
+      --orange-light: #fffbeb;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
       --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
-      --radius: 10px;
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
       --radius-sm: 8px;
+      --radius-xs: 6px;
     }
 
     * {
@@ -47,86 +51,263 @@
     .app {
       max-width: 600px;
       margin: 0 auto;
-      padding-bottom: 76px;
+      padding-bottom: 40px;
     }
 
-    /* Header */
+    /* ── Header ── */
     .header {
-      padding: 24px 20px 16px;
+      padding: 24px 20px 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
     }
 
-    .header h1 {
+    .header-left h1 {
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
 
-    .header .subtitle {
-      font-size: 0.85rem;
+    .header-left .subtitle {
+      font-size: 0.8rem;
       color: var(--text-muted);
       margin-top: 2px;
       font-weight: 400;
     }
 
-    /* Tab bar */
-    .tab-bar {
-      display: flex;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+    .legend-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
       background: var(--surface);
-      border-top: 1px solid var(--border);
-      z-index: 100;
-      padding: 0 0 env(safe-area-inset-bottom, 0);
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 10px 12px 12px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 500;
       cursor: pointer;
-      transition: color 0.15s;
+      font-size: 1.1rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 3px;
+      justify-content: center;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
-    .tab-btn.active {
+    .legend-btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    /* ── Legend Popover ── */
+    .popover-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 300;
+      backdrop-filter: blur(2px);
+      animation: fadeIn 0.15s ease;
+    }
+
+    .popover-overlay.open {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .popover {
+      background: var(--surface);
+      border-radius: 16px 16px 0 0;
+      width: 100%;
+      max-width: 600px;
+      padding: 24px 20px 32px;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.2s ease;
+    }
+
+    .popover-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    .popover h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      padding: 8px 10px;
+      background: var(--bg);
+      border-radius: var(--radius-xs);
+    }
+
+    .legend-emoji {
+      font-size: 1rem;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    .popover-divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 20px 0;
+    }
+
+    .participant-section h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .participant-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .participant-chip {
+      padding: 5px 12px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .add-participant-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .add-participant-row input {
+      flex: 1;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .add-participant-row input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .add-participant-row input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .add-participant-row button {
+      padding: 9px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--text);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+
+    .add-participant-row button:hover {
+      background: #374151;
+    }
+
+    /* ── Filter Chips ── */
+    .filters {
+      padding: 8px 20px 4px;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .filter-chip:hover {
+      border-color: var(--accent);
       color: var(--accent);
     }
 
-    .tab-btn .tab-icon {
-      font-size: 1.25rem;
+    .filter-chip.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
     }
 
-    /* Tab content */
-    .tab-content {
-      display: none;
-      padding: 0 16px 16px;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    /* Forms */
-    .add-item-form,
-    .add-participant-form {
+    /* ── Add Challenge Form ── */
+    .add-form {
       display: flex;
       gap: 8px;
-      margin-bottom: 20px;
+      padding: 14px 20px;
     }
 
-    .add-item-form input,
-    .add-participant-form input {
+    .add-form input {
       flex: 1;
       padding: 10px 14px;
       border: 1px solid var(--border);
@@ -134,25 +315,23 @@
       background: var(--surface);
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
       transition: border-color 0.15s, box-shadow 0.15s;
+      box-shadow: var(--shadow-sm);
     }
 
-    .add-item-form input::placeholder,
-    .add-participant-form input::placeholder {
+    .add-form input::placeholder {
       color: var(--text-muted);
     }
 
-    .add-item-form input:focus,
-    .add-participant-form input:focus {
+    .add-form input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px var(--accent-light);
     }
 
-    .add-item-form button,
-    .add-participant-form button {
-      padding: 10px 18px;
+    .add-form button {
+      padding: 10px 20px;
       border: none;
       border-radius: var(--radius-sm);
       background: var(--accent);
@@ -163,67 +342,138 @@
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.15s, transform 0.1s;
+      box-shadow: var(--shadow-sm);
     }
 
-    .add-item-form button:hover,
-    .add-participant-form button:hover {
+    .add-form button:hover {
       background: var(--accent-hover);
     }
 
-    .add-item-form button:active,
-    .add-participant-form button:active {
+    .add-form button:active {
       transform: scale(0.97);
     }
 
-    /* Item cards */
-    .item-card {
+    /* ── Section Groups ── */
+    .section-group {
+      margin: 8px 16px 20px;
+    }
+
+    .section-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 8px 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-header .emoji {
+      font-size: 0.9rem;
+    }
+
+    .section-count {
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+
+    /* ── Challenge Cards ── */
+    .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 14px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      margin-bottom: 6px;
       box-shadow: var(--shadow-sm);
-      transition: box-shadow 0.15s;
+      transition: box-shadow 0.15s, border-color 0.15s;
+      overflow: hidden;
     }
 
-    .item-card:hover {
+    .card:hover {
       box-shadow: var(--shadow);
     }
 
-    .item-rank {
-      font-size: 0.8rem;
+    .card.expanded {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+    }
+
+    .card-rank {
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--text-muted);
-      min-width: 26px;
+      min-width: 22px;
       text-align: center;
       flex-shrink: 0;
     }
 
-    .item-text {
+    .card-text {
       flex: 1;
-      font-size: 0.9rem;
-      line-height: 1.45;
+      font-size: 0.88rem;
+      line-height: 1.4;
       color: var(--text);
     }
 
-    .vote-controls {
+    .card-tags {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .tag-btn {
+      border: none;
+      background: var(--bg);
+      border-radius: var(--radius-xs);
+      padding: 3px 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.12s;
+      min-width: 30px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .tag-btn:hover {
+      background: var(--orange-light);
+      transform: scale(1.08);
+    }
+
+    .tag-btn:active {
+      transform: scale(0.95);
+    }
+
+    .tag-btn.empty {
+      color: var(--text-muted);
+      font-size: 0.65rem;
+    }
+
+    .vote-area {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1px;
+      gap: 0;
       flex-shrink: 0;
+      margin-left: 2px;
     }
 
     .vote-btn {
       border: none;
       background: transparent;
       cursor: pointer;
-      font-size: 0.7rem;
-      padding: 5px 8px;
-      border-radius: 6px;
+      font-size: 0.65rem;
+      padding: 4px 7px;
+      border-radius: var(--radius-xs);
       transition: all 0.12s;
       line-height: 1;
       color: var(--text-muted);
@@ -248,10 +498,10 @@
     }
 
     .vote-count {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text);
-      min-width: 20px;
+      min-width: 18px;
       text-align: center;
     }
 
@@ -263,150 +513,145 @@
       color: var(--red);
     }
 
-    /* Tracker */
-    .add-participant-form button {
-      background: var(--text);
-    }
-
-    .add-participant-form button:hover {
-      background: #374151;
-    }
-
-    .tracker-table-wrapper {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      background: var(--surface);
-    }
-
-    .tracker-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 400px;
-    }
-
-    .tracker-table th {
+    /* ── Expandable Tracker ── */
+    .card-expand {
+      display: none;
+      border-top: 1px solid var(--border-light);
       background: var(--bg);
-      padding: 10px 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      position: sticky;
-      top: 0;
-      white-space: nowrap;
-      border-bottom: 1px solid var(--border);
     }
 
-    .participant-count {
+    .card.expanded .card-expand {
       display: block;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: none;
-      letter-spacing: 0;
-      margin-top: 2px;
     }
 
-    .participant-count.all-done {
+    .expand-inner {
+      padding: 12px 14px 14px;
+    }
+
+    .completions-list {
+      margin-bottom: 10px;
+    }
+
+    .completion-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+
+    .completion-row+.completion-row {
+      border-top: 1px solid var(--border-light);
+    }
+
+    .completion-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .completion-name .check {
+      font-size: 0.75rem;
+    }
+
+    .completion-date {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .completion-undo {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.12s;
+    }
+
+    .completion-undo:hover {
+      background: var(--red-light);
+      color: var(--red);
+    }
+
+    .complete-trigger {
+      width: 100%;
+      padding: 10px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .complete-trigger:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    /* Participant picker */
+    .picker {
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .picker.open {
+      display: flex;
+    }
+
+    .picker-btn {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .picker-btn:hover {
+      background: var(--green-light);
+      border-color: var(--green);
       color: var(--green);
     }
 
-    .tracker-table th:first-child {
-      text-align: left;
-      min-width: 180px;
-      position: sticky;
-      left: 0;
-      z-index: 2;
-      background: var(--bg);
-    }
-
-    .tracker-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border-light);
-      text-align: center;
-      background: var(--surface);
-    }
-
-    .tracker-table td:first-child {
-      text-align: left;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      position: sticky;
-      left: 0;
-      z-index: 1;
-      background: var(--surface);
-      color: var(--text);
-    }
-
-    .tracker-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .tracker-table tr:hover td {
-      background: var(--accent-light);
-    }
-
-    .tracker-table tr:hover td:first-child {
-      background: var(--accent-light);
-    }
-
-    /* Date cell */
-    .check-cell {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .date-toggle {
-      min-width: 56px;
-      height: 30px;
-      border: 2px solid var(--border);
-      border-radius: 6px;
-      background: var(--surface);
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      transition: all 0.15s;
-      padding: 0 8px;
-    }
-
-    .date-toggle:hover {
-      border-color: var(--accent);
-      background: var(--accent-light);
-    }
-
-    .date-toggle.completed {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: white;
-    }
-
-    .date-toggle.completed:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-    }
-
-    .date-toggle:active {
+    .picker-btn:active {
       transform: scale(0.95);
     }
 
-    /* Section header */
-    .section-title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 14px;
+    .picker-btn.already-done {
+      background: var(--green-light);
+      border-color: var(--green);
+      color: var(--green);
+      opacity: 0.5;
+      cursor: default;
     }
 
-    /* Empty state */
+    .no-completions {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 4px 0 8px;
+      font-style: italic;
+    }
+
+    /* ── Empty State ── */
     .empty-state {
       text-align: center;
       padding: 48px 20px;
@@ -420,21 +665,13 @@
     }
 
     .empty-state p {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 48px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* Toast */
+    /* ── Toast ── */
     .toast {
       position: fixed;
-      bottom: 84px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(8px);
       background: var(--text);
@@ -456,7 +693,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Scrollbar */
+    /* ── Scrollbar ── */
     ::-webkit-scrollbar {
       width: 4px;
       height: 4px;
@@ -475,46 +712,64 @@
 
 <body>
   <div class="app">
+    <!-- Header -->
     <div class="header">
-      <h1>Cringe Club</h1>
-      <div class="subtitle">Awkward challenges, real courage</div>
-    </div>
-
-    <!-- Tab 1: Voting -->
-    <div id="tab-vote" class="tab-content active">
-      <div class="section-title">Challenge Proposals</div>
-      <form class="add-item-form" onsubmit="addItem(event)">
-        <input type="text" id="new-item" placeholder="Suggest a challenge..." maxlength="300" />
-        <button type="submit">Add</button>
-      </form>
-      <div id="items-list">
-        <div class="loading">Loading...</div>
+      <div class="header-left">
+        <h1>Cringe Club</h1>
+        <div class="subtitle">Awkward challenges, real courage</div>
       </div>
+      <button class="legend-btn" onclick="togglePopover()" title="Legend & Settings">🏷️</button>
     </div>
 
-    <!-- Tab 2: Tracker -->
-    <div id="tab-tracker" class="tab-content">
-      <div class="section-title">Challenge Tracker</div>
-      <form class="add-participant-form" onsubmit="addParticipant(event)">
-        <input type="text" id="new-participant" placeholder="Add participant..." maxlength="50" />
-        <button type="submit">Add</button>
-      </form>
-      <div id="tracker-content">
-        <div class="loading">Loading...</div>
+    <!-- Filter chips -->
+    <div class="filters" id="filters">
+      <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</button>
+      <button class="filter-chip" data-filter="i0" onclick="setFilter('i0')">🏷️ Untagged</button>
+      <button class="filter-chip" data-filter="i1" onclick="setFilter('i1')">🔥</button>
+      <button class="filter-chip" data-filter="i2" onclick="setFilter('i2')">🔥🔥</button>
+      <button class="filter-chip" data-filter="i3" onclick="setFilter('i3')">🔥🔥🔥</button>
+      <button class="filter-chip" data-filter="e1" onclick="setFilter('e1')">⚡</button>
+      <button class="filter-chip" data-filter="e2" onclick="setFilter('e2')">⚡⚡</button>
+      <button class="filter-chip" data-filter="e3" onclick="setFilter('e3')">⚡⚡⚡</button>
+    </div>
+
+    <!-- Add challenge -->
+    <form class="add-form" onsubmit="addItem(event)">
+      <input type="text" id="new-item" placeholder="Suggest a challenge..." maxlength="300" />
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Challenge list -->
+    <div id="challenges">
+      <div class="empty-state">
+        <p>Loading...</p>
       </div>
     </div>
   </div>
 
-  <!-- Bottom tab bar -->
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('vote')">
-      <span class="tab-icon">&#9650;</span>
-      <span>Challenges</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('tracker')">
-      <span class="tab-icon">&#9744;</span>
-      <span>Tracker</span>
-    </button>
+  <!-- Legend popover -->
+  <div class="popover-overlay" id="popover-overlay" onclick="closePopover(event)">
+    <div class="popover" onclick="event.stopPropagation()">
+      <div class="popover-handle"></div>
+      <h3>Legend</h3>
+      <div class="legend-grid">
+        <div class="legend-item"><span class="legend-emoji">🔥</span> Low Cringe</div>
+        <div class="legend-item"><span class="legend-emoji">⚡</span> Zero Prep</div>
+        <div class="legend-item"><span class="legend-emoji">🔥🔥</span> Medium</div>
+        <div class="legend-item"><span class="legend-emoji">⚡⚡</span> Some Setup</div>
+        <div class="legend-item"><span class="legend-emoji">🔥🔥🔥</span> Full Send</div>
+        <div class="legend-item"><span class="legend-emoji">⚡⚡⚡</span> Mission</div>
+      </div>
+      <div class="popover-divider"></div>
+      <div class="participant-section">
+        <h4>Participants</h4>
+        <div class="participant-list" id="participant-chips"></div>
+        <form class="add-participant-row" onsubmit="addParticipant(event)">
+          <input type="text" id="new-participant" placeholder="Add participant..." maxlength="50" />
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- Toast -->
@@ -524,86 +779,22 @@
     let items = [];
     let participants = [];
     let completions = [];
+    let activeFilter = 'all';
+    let expandedCardId = null;
+    let openPickerId = null;
 
-    // --- Tab switching ---
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById('tab-' + tab).classList.add('active');
-      document.querySelectorAll('.tab-btn')[tab === 'vote' ? 0 : 1].classList.add('active');
-      if (tab === 'tracker') loadTracker();
-    }
+    const INTENSITY_LABELS = ['Uncategorized', 'Low Cringe', 'Medium Cringe', 'Full Send'];
+    const INTENSITY_EMOJI = ['🏷️', '🔥', '🔥🔥', '🔥🔥🔥'];
+    const EFFORT_EMOJI = ['', '⚡', '⚡⚡', '⚡⚡⚡'];
 
-    // --- Toast ---
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2000);
-    }
-
-    // --- API helpers ---
+    // ── API ──
     async function api(url, opts) {
-      const res = await fetch(url, {
-        headers: { 'Content-Type': 'application/json' },
-        ...opts
-      });
+      const res = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...opts });
       return res.json();
     }
 
-    // --- Items / Voting ---
-    async function loadItems() {
-      items = await api('/api/items');
-      renderItems();
-    }
-
-    function renderItems() {
-      const list = document.getElementById('items-list');
-      if (!items.length) {
-        list.innerHTML = `
-          <div class="empty-state">
-            <div class="icon">&#128172;</div>
-            <p>No challenges yet. Be the first!</p>
-          </div>`;
-        return;
-      }
-      list.innerHTML = items.map((item, i) => `
-        <div class="item-card">
-          <div class="item-rank">${i + 1}</div>
-          <div class="item-text">${escapeHtml(item.text)}</div>
-          <div class="vote-controls">
-            <button class="vote-btn up" onclick="vote('${item._id}', 'up')" title="Upvote">&#9650;</button>
-            <div class="vote-count ${item.votes > 0 ? 'positive' : ''} ${item.votes < 0 ? 'negative' : ''}">${item.votes}</div>
-            <button class="vote-btn down" onclick="vote('${item._id}', 'down')" title="Downvote">&#9660;</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    async function addItem(e) {
-      e.preventDefault();
-      const input = document.getElementById('new-item');
-      const text = input.value.trim();
-      if (!text) return;
-      await api('/api/items', {
-        method: 'POST',
-        body: JSON.stringify({ text })
-      });
-      input.value = '';
-      showToast('Challenge added');
-      loadItems();
-    }
-
-    async function vote(id, direction) {
-      await api(`/api/items/${id}/vote`, {
-        method: 'POST',
-        body: JSON.stringify({ direction })
-      });
-      loadItems();
-    }
-
-    // --- Tracker ---
-    async function loadTracker() {
+    // ── Data Loading ──
+    async function loadAll() {
       const [itemsData, partsData, compsData] = await Promise.all([
         api('/api/items'),
         api('/api/participants'),
@@ -612,85 +803,227 @@
       items = itemsData;
       participants = partsData;
       completions = compsData;
-      renderTracker();
+      render();
+      renderParticipantChips();
     }
 
-    function renderTracker() {
-      const container = document.getElementById('tracker-content');
-      const allItems = [...items]; // already sorted by rank from the API
+    // ── Filters ──
+    function setFilter(f) {
+      activeFilter = f;
+      document.querySelectorAll('.filter-chip').forEach(el => {
+        el.classList.toggle('active', el.dataset.filter === f);
+      });
+      render();
+    }
 
-      if (!allItems.length) {
+    function passesFilter(item) {
+      if (activeFilter === 'all') return true;
+      if (activeFilter === 'i0') return item.intensity === 0;
+      if (activeFilter === 'i1') return item.intensity === 1;
+      if (activeFilter === 'i2') return item.intensity === 2;
+      if (activeFilter === 'i3') return item.intensity === 3;
+      if (activeFilter === 'e1') return item.effort === 1;
+      if (activeFilter === 'e2') return item.effort === 2;
+      if (activeFilter === 'e3') return item.effort === 3;
+      return true;
+    }
+
+    // ── Rendering ──
+    function render() {
+      const container = document.getElementById('challenges');
+      const filtered = items.filter(passesFilter);
+
+      if (!filtered.length) {
         container.innerHTML = `
           <div class="empty-state">
-            <div class="icon">&#128203;</div>
-            <p>No challenges to track yet.</p>
+            <div class="icon">💬</div>
+            <p>${items.length ? 'No challenges match this filter' : 'No challenges yet. Be the first!'}</p>
           </div>`;
         return;
       }
 
-      if (!participants.length) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="icon">&#128101;</div>
-            <p>No participants yet. Add someone above.</p>
-          </div>`;
-        return;
-      }
-
-      const completionMap = {};
-      completions.forEach(c => {
-        completionMap[`${c.itemId}_${c.participant}`] = c;
+      // Group by intensity
+      const groups = { 0: [], 1: [], 2: [], 3: [] };
+      filtered.forEach(item => {
+        const i = item.intensity || 0;
+        groups[i].push(item);
       });
 
-      // Count completions per participant (out of total challenges)
-      const totalChallenges = allItems.length;
-      function getCompletionCount(participantName) {
-        let count = 0;
-        allItems.forEach(item => {
-          const key = `${item._id}_${participantName}`;
-          const comp = completionMap[key];
-          if (comp && comp.completed) count++;
-        });
-        return count;
-      }
+      // Build completion map
+      const compMap = {};
+      completions.forEach(c => {
+        compMap[`${c.itemId}_${c.participant}`] = c;
+      });
 
-      container.innerHTML = `
-        <div class="tracker-table-wrapper">
-          <table class="tracker-table">
-            <thead>
-              <tr>
-                <th>Challenge</th>
-                ${participants.map(p => {
-        const done = getCompletionCount(p.name);
-        const allDone = done === totalChallenges && totalChallenges > 0;
-        return `<th>${escapeHtml(p.name)}<span class="participant-count${allDone ? ' all-done' : ''}">${done}/${totalChallenges}</span></th>`;
-      }).join('')}
-              </tr>
-            </thead>
-            <tbody>
-              ${allItems.map((item, i) => `
-                <tr>
-                  <td>${i + 1}. ${escapeHtml(item.text)}</td>
-                  ${participants.map(p => {
-        const key = `${item._id}_${p.name}`;
-        const comp = completionMap[key];
-        const isDone = comp && comp.completed;
-        const dateStr = isDone ? formatDate(comp.completedAt) : '';
-        return `
-                      <td>
-                        <div class="check-cell">
-                          <button class="date-toggle ${isDone ? 'completed' : ''}"
-                            onclick="toggleCompletion('${item._id}', '${escapeHtml(p.name)}', ${!isDone})">
-                            ${isDone ? dateStr : '—'}
-                          </button>
-                        </div>
-                      </td>`;
-      }).join('')}
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>`;
+      let html = '';
+      let globalRank = 1;
+
+      [0, 1, 2, 3].forEach(intensity => {
+        const group = groups[intensity];
+        if (!group.length) return;
+
+        html += `
+          <div class="section-group">
+            <div class="section-header">
+              <span class="emoji">${INTENSITY_EMOJI[intensity]}</span>
+              ${INTENSITY_LABELS[intensity]}
+              <span class="section-count">(${group.length})</span>
+            </div>`;
+
+        group.forEach(item => {
+          const isExpanded = expandedCardId === item._id;
+          const itemCompletions = completions.filter(c => c.itemId === item._id && c.completed);
+          const isPickerOpen = openPickerId === item._id;
+          const effortDisplay = item.effort > 0 ? EFFORT_EMOJI[item.effort] : '';
+          const intensityDisplay = item.intensity > 0 ? INTENSITY_EMOJI[item.intensity] : '';
+
+          // Build expanded content
+          let expandHtml = '';
+          if (isExpanded) {
+            let compListHtml = '';
+            if (itemCompletions.length) {
+              compListHtml = '<div class="completions-list">' +
+                itemCompletions.map(c => `
+                  <div class="completion-row">
+                    <span class="completion-name"><span class="check">✓</span> ${escapeHtml(c.participant)}</span>
+                    <span>
+                      <span class="completion-date">${formatDate(c.completedAt)}</span>
+                      <button class="completion-undo" onclick="event.stopPropagation(); uncomplete('${item._id}', '${escapeAttr(c.participant)}')" title="Undo">✕</button>
+                    </span>
+                  </div>
+                `).join('') + '</div>';
+            } else {
+              compListHtml = '<div class="no-completions">No one has completed this yet</div>';
+            }
+
+            // Participant picker
+            const doneNames = new Set(itemCompletions.map(c => c.participant));
+            let pickerHtml = '';
+            if (isPickerOpen && participants.length) {
+              pickerHtml = '<div class="picker open">' +
+                participants.map(p => {
+                  const done = doneNames.has(p.name);
+                  return `<button class="picker-btn ${done ? 'already-done' : ''}" 
+                    onclick="event.stopPropagation(); ${done ? '' : `completeCh('${item._id}', '${escapeAttr(p.name)}')`}" 
+                    ${done ? 'disabled' : ''}>${escapeHtml(p.name)}${done ? ' ✓' : ''}</button>`;
+                }).join('') + '</div>';
+            } else if (isPickerOpen && !participants.length) {
+              pickerHtml = '<div class="picker open"><span class="no-completions">Add participants in 🏷️ first</span></div>';
+            }
+
+            expandHtml = `
+              <div class="card-expand">
+                <div class="expand-inner">
+                  ${compListHtml}
+                  <button class="complete-trigger" onclick="event.stopPropagation(); togglePicker('${item._id}')">
+                    ✋ I completed this
+                  </button>
+                  ${pickerHtml}
+                </div>
+              </div>`;
+          }
+
+          html += `
+            <div class="card ${isExpanded ? 'expanded' : ''}" id="card-${item._id}">
+              <div class="card-main" onclick="toggleCard('${item._id}')">
+                <div class="card-rank">${globalRank}</div>
+                <div class="card-text">${escapeHtml(item.text)}</div>
+                <div class="card-tags">
+                  <button class="tag-btn ${item.intensity === 0 ? 'empty' : ''}" onclick="event.stopPropagation(); cycleTag('${item._id}', 'intensity', ${item.intensity})" title="Intensity">
+                    ${intensityDisplay || '🔥'}
+                  </button>
+                  <button class="tag-btn ${item.effort === 0 ? 'empty' : ''}" onclick="event.stopPropagation(); cycleTag('${item._id}', 'effort', ${item.effort})" title="Effort">
+                    ${effortDisplay || '⚡'}
+                  </button>
+                </div>
+                <div class="vote-area">
+                  <button class="vote-btn up" onclick="event.stopPropagation(); vote('${item._id}', 'up')" title="Upvote">&#9650;</button>
+                  <div class="vote-count ${item.votes > 0 ? 'positive' : ''} ${item.votes < 0 ? 'negative' : ''}">${item.votes}</div>
+                  <button class="vote-btn down" onclick="event.stopPropagation(); vote('${item._id}', 'down')" title="Downvote">&#9660;</button>
+                </div>
+              </div>
+              ${expandHtml}
+            </div>`;
+          globalRank++;
+        });
+
+        html += '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    // ── Card expand / collapse ──
+    function toggleCard(id) {
+      if (expandedCardId === id) {
+        expandedCardId = null;
+        openPickerId = null;
+      } else {
+        expandedCardId = id;
+        openPickerId = null;
+      }
+      render();
+    }
+
+    function togglePicker(id) {
+      openPickerId = openPickerId === id ? null : id;
+      render();
+    }
+
+    // ── Actions ──
+    async function addItem(e) {
+      e.preventDefault();
+      const input = document.getElementById('new-item');
+      const text = input.value.trim();
+      if (!text) return;
+      await api('/api/items', { method: 'POST', body: JSON.stringify({ text }) });
+      input.value = '';
+      showToast('Challenge added');
+      await loadAll();
+    }
+
+    async function vote(id, direction) {
+      await api(`/api/items/${id}/vote`, { method: 'POST', body: JSON.stringify({ direction }) });
+      await loadAll();
+    }
+
+    async function cycleTag(id, field, current) {
+      const next = (current + 1) % 4;
+      await api(`/api/items/${id}/tags`, {
+        method: 'PATCH',
+        body: JSON.stringify({ [field]: next })
+      });
+      await loadAll();
+    }
+
+    async function completeCh(itemId, participant) {
+      await api('/api/completions', {
+        method: 'POST',
+        body: JSON.stringify({ itemId, participant, completed: true })
+      });
+      openPickerId = null;
+      showToast(`${participant} completed it!`);
+      await loadAll();
+    }
+
+    async function uncomplete(itemId, participant) {
+      await api('/api/completions', {
+        method: 'POST',
+        body: JSON.stringify({ itemId, participant, completed: false })
+      });
+      await loadAll();
+    }
+
+    // ── Participants ──
+    function renderParticipantChips() {
+      const container = document.getElementById('participant-chips');
+      if (!participants.length) {
+        container.innerHTML = '<span class="no-completions">No participants yet</span>';
+        return;
+      }
+      container.innerHTML = participants.map(p =>
+        `<span class="participant-chip">${escapeHtml(p.name)}</span>`
+      ).join('');
     }
 
     async function addParticipant(e) {
@@ -698,42 +1031,50 @@
       const input = document.getElementById('new-participant');
       const name = input.value.trim();
       if (!name) return;
-      const res = await api('/api/participants', {
-        method: 'POST',
-        body: JSON.stringify({ name })
-      });
-      if (res.error) {
-        showToast(res.error);
-        return;
-      }
+      const res = await api('/api/participants', { method: 'POST', body: JSON.stringify({ name }) });
+      if (res.error) { showToast(res.error); return; }
       input.value = '';
       showToast(`${name} added`);
-      loadTracker();
+      await loadAll();
     }
 
-    async function toggleCompletion(itemId, participant, completed) {
-      await api('/api/completions', {
-        method: 'POST',
-        body: JSON.stringify({ itemId, participant, completed })
-      });
-      loadTracker();
+    // ── Popover ──
+    function togglePopover() {
+      document.getElementById('popover-overlay').classList.toggle('open');
+    }
+
+    function closePopover(e) {
+      if (e.target === e.currentTarget) {
+        document.getElementById('popover-overlay').classList.remove('open');
+      }
+    }
+
+    // ── Utils ──
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
     function formatDate(dateStr) {
       const d = new Date(dateStr);
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       return `${months[d.getMonth()]} ${d.getDate()}`;
     }
 
-    // --- Util ---
     function escapeHtml(str) {
       const div = document.createElement('div');
       div.textContent = str;
       return div.innerHTML;
     }
 
-    // --- Init ---
-    loadItems();
+    function escapeAttr(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    // ── Init ──
+    loadAll();
   </script>
 </body>
 
