@@ -46,6 +46,7 @@
       color: var(--text);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .app {
@@ -77,13 +78,13 @@
     }
 
     .legend-btn {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       background: var(--surface);
       cursor: pointer;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -91,50 +92,30 @@
       box-shadow: var(--shadow-sm);
       flex-shrink: 0;
       margin-top: 2px;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .legend-btn:hover {
+    .legend-btn:active {
       background: var(--accent-light);
       border-color: var(--accent);
+      transform: scale(0.95);
     }
 
-    /* ── Legend Popover ── */
+    /* ── Popover ── */
     .popover-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.35);
       z-index: 300;
       backdrop-filter: blur(2px);
-      animation: fadeIn 0.15s ease;
+      -webkit-backdrop-filter: blur(2px);
     }
 
     .popover-overlay.open {
       display: flex;
       align-items: flex-end;
       justify-content: center;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
     }
 
     .popover {
@@ -144,7 +125,17 @@
       max-width: 600px;
       padding: 24px 20px 32px;
       box-shadow: var(--shadow-lg);
-      animation: slideUp 0.2s ease;
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
     }
 
     .popover-handle {
@@ -222,12 +213,12 @@
 
     .add-participant-row input {
       flex: 1;
-      padding: 9px 14px;
+      padding: 10px 14px;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       background: var(--surface);
       font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       color: var(--text);
       outline: none;
       transition: border-color 0.15s, box-shadow 0.15s;
@@ -243,20 +234,20 @@
     }
 
     .add-participant-row button {
-      padding: 9px 16px;
+      padding: 10px 18px;
       border: none;
       border-radius: var(--radius-sm);
       background: var(--text);
       color: white;
       font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.15s;
     }
 
-    .add-participant-row button:hover {
+    .add-participant-row button:active {
       background: #374151;
     }
 
@@ -275,7 +266,7 @@
     }
 
     .filter-chip {
-      padding: 6px 14px;
+      padding: 7px 14px;
       border: 1px solid var(--border);
       border-radius: 20px;
       background: var(--surface);
@@ -287,11 +278,11 @@
       white-space: nowrap;
       transition: all 0.15s;
       flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .filter-chip:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+    .filter-chip:active {
+      transform: scale(0.95);
     }
 
     .filter-chip.active {
@@ -345,12 +336,9 @@
       box-shadow: var(--shadow-sm);
     }
 
-    .add-form button:hover {
-      background: var(--accent-hover);
-    }
-
     .add-form button:active {
       transform: scale(0.97);
+      background: var(--accent-hover);
     }
 
     /* ── Section Groups ── */
@@ -389,11 +377,8 @@
       margin-bottom: 6px;
       box-shadow: var(--shadow-sm);
       transition: box-shadow 0.15s, border-color 0.15s;
-      overflow: hidden;
-    }
-
-    .card:hover {
-      box-shadow: var(--shadow);
+      overflow: visible;
+      position: relative;
     }
 
     .card.expanded {
@@ -407,6 +392,7 @@
       gap: 10px;
       padding: 12px 14px;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .card-rank {
@@ -429,33 +415,96 @@
       display: flex;
       gap: 4px;
       flex-shrink: 0;
+      position: relative;
     }
 
     .tag-btn {
       border: none;
       background: var(--bg);
       border-radius: var(--radius-xs);
-      padding: 3px 6px;
-      font-size: 0.75rem;
+      padding: 4px 8px;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: all 0.12s;
-      min-width: 30px;
+      min-width: 34px;
       text-align: center;
-      line-height: 1.4;
-    }
-
-    .tag-btn:hover {
-      background: var(--orange-light);
-      transform: scale(1.08);
+      line-height: 1.3;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
     }
 
     .tag-btn:active {
-      transform: scale(0.95);
+      transform: scale(0.92);
+      background: var(--orange-light);
     }
 
     .tag-btn.empty {
       color: var(--text-muted);
-      font-size: 0.65rem;
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
+
+    /* ── Tag Dropdown ── */
+    .tag-dropdown {
+      position: absolute;
+      bottom: calc(100% + 4px);
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      min-width: 160px;
+      overflow: hidden;
+      animation: dropIn 0.15s ease;
+    }
+
+    @keyframes dropIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tag-dropdown-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.1s;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tag-dropdown-option:active,
+    .tag-dropdown-option:hover {
+      background: var(--accent-light);
+    }
+
+    .tag-dropdown-option+.tag-dropdown-option {
+      border-top: 1px solid var(--border-light);
+    }
+
+    .tag-dropdown-option.selected {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .tag-dropdown-option .opt-emoji {
+      font-size: 1rem;
+      min-width: 24px;
     }
 
     .vote-area {
@@ -472,29 +521,26 @@
       background: transparent;
       cursor: pointer;
       font-size: 0.65rem;
-      padding: 4px 7px;
+      padding: 6px 8px;
       border-radius: var(--radius-xs);
       transition: all 0.12s;
       line-height: 1;
       color: var(--text-muted);
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .vote-btn:hover {
-      background: var(--bg);
+    .vote-btn:active {
+      transform: scale(1.3);
     }
 
-    .vote-btn.up:hover {
+    .vote-btn.up:active {
       color: var(--green);
       background: var(--green-light);
     }
 
-    .vote-btn.down:hover {
+    .vote-btn.down:active {
       color: var(--red);
       background: var(--red-light);
-    }
-
-    .vote-btn:active {
-      transform: scale(1.2);
     }
 
     .vote-count {
@@ -518,6 +564,8 @@
       display: none;
       border-top: 1px solid var(--border-light);
       background: var(--bg);
+      border-radius: 0 0 var(--radius) var(--radius);
+      overflow: hidden;
     }
 
     .card.expanded .card-expand {
@@ -565,27 +613,28 @@
       border: none;
       background: transparent;
       color: var(--text-muted);
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       cursor: pointer;
-      padding: 2px 6px;
+      padding: 4px 8px;
       border-radius: 4px;
       transition: all 0.12s;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .completion-undo:hover {
+    .completion-undo:active {
       background: var(--red-light);
       color: var(--red);
     }
 
     .complete-trigger {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 2px dashed var(--border);
       border-radius: var(--radius-sm);
       background: transparent;
       color: var(--text-secondary);
       font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
@@ -593,9 +642,10 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .complete-trigger:hover {
+    .complete-trigger:active {
       border-color: var(--accent);
       color: var(--accent);
       background: var(--accent-light);
@@ -606,7 +656,7 @@
       display: none;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .picker.open {
@@ -614,25 +664,23 @@
     }
 
     .picker-btn {
-      padding: 6px 14px;
+      padding: 8px 16px;
       border: 1px solid var(--border);
       border-radius: 20px;
       background: var(--surface);
       font-family: 'Inter', sans-serif;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 500;
       color: var(--text);
       cursor: pointer;
       transition: all 0.15s;
-    }
-
-    .picker-btn:hover {
-      background: var(--green-light);
-      border-color: var(--green);
-      color: var(--green);
+      -webkit-tap-highlight-color: transparent;
     }
 
     .picker-btn:active {
+      background: var(--green-light);
+      border-color: var(--green);
+      color: var(--green);
       transform: scale(0.95);
     }
 
@@ -641,7 +689,7 @@
       border-color: var(--green);
       color: var(--green);
       opacity: 0.5;
-      cursor: default;
+      pointer-events: none;
     }
 
     .no-completions {
@@ -712,34 +760,21 @@
 
 <body>
   <div class="app">
-    <!-- Header -->
     <div class="header">
       <div class="header-left">
         <h1>Cringe Club</h1>
         <div class="subtitle">Awkward challenges, real courage</div>
       </div>
-      <button class="legend-btn" onclick="togglePopover()" title="Legend & Settings">🏷️</button>
+      <button class="legend-btn" id="legend-btn">🏷️</button>
     </div>
 
-    <!-- Filter chips -->
-    <div class="filters" id="filters">
-      <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</button>
-      <button class="filter-chip" data-filter="i0" onclick="setFilter('i0')">🏷️ Untagged</button>
-      <button class="filter-chip" data-filter="i1" onclick="setFilter('i1')">🔥</button>
-      <button class="filter-chip" data-filter="i2" onclick="setFilter('i2')">🔥🔥</button>
-      <button class="filter-chip" data-filter="i3" onclick="setFilter('i3')">🔥🔥🔥</button>
-      <button class="filter-chip" data-filter="e1" onclick="setFilter('e1')">⚡</button>
-      <button class="filter-chip" data-filter="e2" onclick="setFilter('e2')">⚡⚡</button>
-      <button class="filter-chip" data-filter="e3" onclick="setFilter('e3')">⚡⚡⚡</button>
-    </div>
+    <div class="filters" id="filters"></div>
 
-    <!-- Add challenge -->
-    <form class="add-form" onsubmit="addItem(event)">
+    <form class="add-form" id="add-form">
       <input type="text" id="new-item" placeholder="Suggest a challenge..." maxlength="300" />
       <button type="submit">Add</button>
     </form>
 
-    <!-- Challenge list -->
     <div id="challenges">
       <div class="empty-state">
         <p>Loading...</p>
@@ -747,9 +782,9 @@
     </div>
   </div>
 
-  <!-- Legend popover -->
-  <div class="popover-overlay" id="popover-overlay" onclick="closePopover(event)">
-    <div class="popover" onclick="event.stopPropagation()">
+  <!-- Popover -->
+  <div class="popover-overlay" id="popover-overlay">
+    <div class="popover" id="popover-content">
       <div class="popover-handle"></div>
       <h3>Legend</h3>
       <div class="legend-grid">
@@ -764,7 +799,7 @@
       <div class="participant-section">
         <h4>Participants</h4>
         <div class="participant-list" id="participant-chips"></div>
-        <form class="add-participant-row" onsubmit="addParticipant(event)">
+        <form class="add-participant-row" id="add-participant-form">
           <input type="text" id="new-participant" placeholder="Add participant..." maxlength="50" />
           <button type="submit">Add</button>
         </form>
@@ -772,7 +807,6 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div id="toast" class="toast"></div>
 
   <script>
@@ -782,10 +816,12 @@
     let activeFilter = 'all';
     let expandedCardId = null;
     let openPickerId = null;
+    let openDropdown = null; // { itemId, field } or null
 
     const INTENSITY_LABELS = ['Uncategorized', 'Low Cringe', 'Medium Cringe', 'Full Send'];
     const INTENSITY_EMOJI = ['🏷️', '🔥', '🔥🔥', '🔥🔥🔥'];
-    const EFFORT_EMOJI = ['', '⚡', '⚡⚡', '⚡⚡⚡'];
+    const EFFORT_LABELS = ['None', 'Zero Prep', 'Some Setup', 'Mission'];
+    const EFFORT_EMOJI = ['—', '⚡', '⚡⚡', '⚡⚡⚡'];
 
     // ── API ──
     async function api(url, opts) {
@@ -795,30 +831,51 @@
 
     // ── Data Loading ──
     async function loadAll() {
-      const [itemsData, partsData, compsData] = await Promise.all([
-        api('/api/items'),
-        api('/api/participants'),
-        api('/api/completions')
-      ]);
-      items = itemsData;
-      participants = partsData;
-      completions = compsData;
+      try {
+        const [itemsData, partsData, compsData] = await Promise.all([
+          api('/api/items'),
+          api('/api/participants'),
+          api('/api/completions')
+        ]);
+        items = itemsData;
+        participants = partsData;
+        completions = compsData;
+      } catch (e) {
+        console.error('Failed to load data:', e);
+      }
       render();
       renderParticipantChips();
+      renderFilters();
     }
 
     // ── Filters ──
+    function renderFilters() {
+      const container = document.getElementById('filters');
+      const filters = [
+        { key: 'all', label: 'All' },
+        { key: 'i0', label: '🏷️ Untagged' },
+        { key: 'i1', label: '🔥' },
+        { key: 'i2', label: '🔥🔥' },
+        { key: 'i3', label: '🔥🔥🔥' },
+        { key: 'e1', label: '⚡' },
+        { key: 'e2', label: '⚡⚡' },
+        { key: 'e3', label: '⚡⚡⚡' },
+      ];
+      container.innerHTML = filters.map(f =>
+        `<button class="filter-chip ${activeFilter === f.key ? 'active' : ''}" data-filter="${f.key}">${f.label}</button>`
+      ).join('');
+    }
+
     function setFilter(f) {
       activeFilter = f;
-      document.querySelectorAll('.filter-chip').forEach(el => {
-        el.classList.toggle('active', el.dataset.filter === f);
-      });
+      openDropdown = null;
       render();
+      renderFilters();
     }
 
     function passesFilter(item) {
       if (activeFilter === 'all') return true;
-      if (activeFilter === 'i0') return item.intensity === 0;
+      if (activeFilter === 'i0') return (item.intensity || 0) === 0;
       if (activeFilter === 'i1') return item.intensity === 1;
       if (activeFilter === 'i2') return item.intensity === 2;
       if (activeFilter === 'i3') return item.intensity === 3;
@@ -842,17 +899,9 @@
         return;
       }
 
-      // Group by intensity
       const groups = { 0: [], 1: [], 2: [], 3: [] };
       filtered.forEach(item => {
-        const i = item.intensity || 0;
-        groups[i].push(item);
-      });
-
-      // Build completion map
-      const compMap = {};
-      completions.forEach(c => {
-        compMap[`${c.itemId}_${c.participant}`] = c;
+        groups[item.intensity || 0].push(item);
       });
 
       let html = '';
@@ -862,22 +911,23 @@
         const group = groups[intensity];
         if (!group.length) return;
 
-        html += `
-          <div class="section-group">
-            <div class="section-header">
-              <span class="emoji">${INTENSITY_EMOJI[intensity]}</span>
-              ${INTENSITY_LABELS[intensity]}
-              <span class="section-count">(${group.length})</span>
-            </div>`;
+        html += `<div class="section-group">
+          <div class="section-header">
+            <span class="emoji">${INTENSITY_EMOJI[intensity]}</span>
+            ${INTENSITY_LABELS[intensity]}
+            <span class="section-count">(${group.length})</span>
+          </div>`;
 
         group.forEach(item => {
           const isExpanded = expandedCardId === item._id;
           const itemCompletions = completions.filter(c => c.itemId === item._id && c.completed);
           const isPickerOpen = openPickerId === item._id;
-          const effortDisplay = item.effort > 0 ? EFFORT_EMOJI[item.effort] : '';
-          const intensityDisplay = item.intensity > 0 ? INTENSITY_EMOJI[item.intensity] : '';
+          const intensityVal = item.intensity || 0;
+          const effortVal = item.effort || 0;
+          const showIntensityDrop = openDropdown && openDropdown.itemId === item._id && openDropdown.field === 'intensity';
+          const showEffortDrop = openDropdown && openDropdown.itemId === item._id && openDropdown.field === 'effort';
 
-          // Build expanded content
+          // Expanded content
           let expandHtml = '';
           if (isExpanded) {
             let compListHtml = '';
@@ -885,27 +935,23 @@
               compListHtml = '<div class="completions-list">' +
                 itemCompletions.map(c => `
                   <div class="completion-row">
-                    <span class="completion-name"><span class="check">✓</span> ${escapeHtml(c.participant)}</span>
+                    <span class="completion-name"><span class="check">✓</span> ${esc(c.participant)}</span>
                     <span>
                       <span class="completion-date">${formatDate(c.completedAt)}</span>
-                      <button class="completion-undo" onclick="event.stopPropagation(); uncomplete('${item._id}', '${escapeAttr(c.participant)}')" title="Undo">✕</button>
+                      <button class="completion-undo" data-action="uncomplete" data-item="${item._id}" data-participant="${escA(c.participant)}">✕</button>
                     </span>
-                  </div>
-                `).join('') + '</div>';
+                  </div>`).join('') + '</div>';
             } else {
               compListHtml = '<div class="no-completions">No one has completed this yet</div>';
             }
 
-            // Participant picker
             const doneNames = new Set(itemCompletions.map(c => c.participant));
             let pickerHtml = '';
             if (isPickerOpen && participants.length) {
               pickerHtml = '<div class="picker open">' +
                 participants.map(p => {
                   const done = doneNames.has(p.name);
-                  return `<button class="picker-btn ${done ? 'already-done' : ''}" 
-                    onclick="event.stopPropagation(); ${done ? '' : `completeCh('${item._id}', '${escapeAttr(p.name)}')`}" 
-                    ${done ? 'disabled' : ''}>${escapeHtml(p.name)}${done ? ' ✓' : ''}</button>`;
+                  return `<button class="picker-btn ${done ? 'already-done' : ''}" data-action="complete" data-item="${item._id}" data-participant="${escA(p.name)}" ${done ? 'disabled' : ''}>${esc(p.name)}${done ? ' ✓' : ''}</button>`;
                 }).join('') + '</div>';
             } else if (isPickerOpen && !participants.length) {
               pickerHtml = '<div class="picker open"><span class="no-completions">Add participants in 🏷️ first</span></div>';
@@ -915,31 +961,57 @@
               <div class="card-expand">
                 <div class="expand-inner">
                   ${compListHtml}
-                  <button class="complete-trigger" onclick="event.stopPropagation(); togglePicker('${item._id}')">
-                    ✋ I completed this
-                  </button>
+                  <button class="complete-trigger" data-action="toggle-picker" data-item="${item._id}">✋ I completed this</button>
                   ${pickerHtml}
                 </div>
               </div>`;
           }
 
+          // Intensity dropdown
+          let intensityDropHtml = '';
+          if (showIntensityDrop) {
+            intensityDropHtml = `<div class="tag-dropdown">
+              ${[1, 2, 3].map(v => `<button class="tag-dropdown-option ${intensityVal === v ? 'selected' : ''}" data-action="set-tag" data-item="${item._id}" data-field="intensity" data-value="${v}">
+                <span class="opt-emoji">${INTENSITY_EMOJI[v]}</span> ${INTENSITY_LABELS[v]}
+              </button>`).join('')}
+              ${intensityVal > 0 ? `<button class="tag-dropdown-option" data-action="set-tag" data-item="${item._id}" data-field="intensity" data-value="0">
+                <span class="opt-emoji">✕</span> Remove
+              </button>` : ''}
+            </div>`;
+          }
+
+          // Effort dropdown
+          let effortDropHtml = '';
+          if (showEffortDrop) {
+            effortDropHtml = `<div class="tag-dropdown">
+              ${[1, 2, 3].map(v => `<button class="tag-dropdown-option ${effortVal === v ? 'selected' : ''}" data-action="set-tag" data-item="${item._id}" data-field="effort" data-value="${v}">
+                <span class="opt-emoji">${EFFORT_EMOJI[v]}</span> ${EFFORT_LABELS[v]}
+              </button>`).join('')}
+              ${effortVal > 0 ? `<button class="tag-dropdown-option" data-action="set-tag" data-item="${item._id}" data-field="effort" data-value="0">
+                <span class="opt-emoji">✕</span> Remove
+              </button>` : ''}
+            </div>`;
+          }
+
           html += `
             <div class="card ${isExpanded ? 'expanded' : ''}" id="card-${item._id}">
-              <div class="card-main" onclick="toggleCard('${item._id}')">
+              <div class="card-main" data-action="toggle-card" data-item="${item._id}">
                 <div class="card-rank">${globalRank}</div>
-                <div class="card-text">${escapeHtml(item.text)}</div>
+                <div class="card-text">${esc(item.text)}</div>
                 <div class="card-tags">
-                  <button class="tag-btn ${item.intensity === 0 ? 'empty' : ''}" onclick="event.stopPropagation(); cycleTag('${item._id}', 'intensity', ${item.intensity})" title="Intensity">
-                    ${intensityDisplay || '🔥'}
+                  <button class="tag-btn ${intensityVal === 0 ? 'empty' : ''}" data-action="open-tag-dropdown" data-item="${item._id}" data-field="intensity">
+                    ${intensityVal > 0 ? INTENSITY_EMOJI[intensityVal] : '🔥'}
                   </button>
-                  <button class="tag-btn ${item.effort === 0 ? 'empty' : ''}" onclick="event.stopPropagation(); cycleTag('${item._id}', 'effort', ${item.effort})" title="Effort">
-                    ${effortDisplay || '⚡'}
+                  <button class="tag-btn ${effortVal === 0 ? 'empty' : ''}" data-action="open-tag-dropdown" data-item="${item._id}" data-field="effort">
+                    ${effortVal > 0 ? EFFORT_EMOJI[effortVal] : '⚡'}
                   </button>
+                  ${intensityDropHtml}
+                  ${effortDropHtml}
                 </div>
                 <div class="vote-area">
-                  <button class="vote-btn up" onclick="event.stopPropagation(); vote('${item._id}', 'up')" title="Upvote">&#9650;</button>
+                  <button class="vote-btn up" data-action="vote" data-item="${item._id}" data-dir="up">&#9650;</button>
                   <div class="vote-count ${item.votes > 0 ? 'positive' : ''} ${item.votes < 0 ? 'negative' : ''}">${item.votes}</div>
-                  <button class="vote-btn down" onclick="event.stopPropagation(); vote('${item._id}', 'down')" title="Downvote">&#9660;</button>
+                  <button class="vote-btn down" data-action="vote" data-item="${item._id}" data-dir="down">&#9660;</button>
                 </div>
               </div>
               ${expandHtml}
@@ -953,25 +1025,97 @@
       container.innerHTML = html;
     }
 
-    // ── Card expand / collapse ──
-    function toggleCard(id) {
-      if (expandedCardId === id) {
-        expandedCardId = null;
-        openPickerId = null;
-      } else {
-        expandedCardId = id;
-        openPickerId = null;
+    // ── Event Delegation ──
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) {
+        // Click outside dropdown? Close it
+        if (openDropdown && !e.target.closest('.tag-dropdown')) {
+          openDropdown = null;
+          render();
+        }
+        return;
       }
-      render();
-    }
 
-    function togglePicker(id) {
-      openPickerId = openPickerId === id ? null : id;
-      render();
-    }
+      const action = btn.dataset.action;
+      const itemId = btn.dataset.item;
 
-    // ── Actions ──
-    async function addItem(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      switch (action) {
+        case 'toggle-card':
+          // Don't toggle if a nested action was clicked
+          if (e.target.closest('.tag-btn, .vote-btn, .tag-dropdown, .completion-undo, .complete-trigger, .picker-btn')) return;
+          if (expandedCardId === itemId) {
+            expandedCardId = null;
+            openPickerId = null;
+          } else {
+            expandedCardId = itemId;
+            openPickerId = null;
+          }
+          openDropdown = null;
+          render();
+          break;
+
+        case 'open-tag-dropdown':
+          const field = btn.dataset.field;
+          if (openDropdown && openDropdown.itemId === itemId && openDropdown.field === field) {
+            openDropdown = null;
+          } else {
+            openDropdown = { itemId, field };
+          }
+          render();
+          break;
+
+        case 'set-tag':
+          setTag(itemId, btn.dataset.field, parseInt(btn.dataset.value));
+          break;
+
+        case 'vote':
+          doVote(itemId, btn.dataset.dir);
+          break;
+
+        case 'toggle-picker':
+          openPickerId = openPickerId === itemId ? null : itemId;
+          render();
+          break;
+
+        case 'complete':
+          doComplete(itemId, btn.dataset.participant);
+          break;
+
+        case 'uncomplete':
+          doUncomplete(itemId, btn.dataset.participant);
+          break;
+      }
+    });
+
+    // Filter clicks
+    document.getElementById('filters').addEventListener('click', function (e) {
+      const chip = e.target.closest('.filter-chip');
+      if (chip) setFilter(chip.dataset.filter);
+    });
+
+    // Legend popover
+    document.getElementById('legend-btn').addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.getElementById('popover-overlay').classList.toggle('open');
+    });
+
+    document.getElementById('popover-overlay').addEventListener('click', function (e) {
+      if (e.target === this) {
+        this.classList.remove('open');
+      }
+    });
+
+    // Prevent popover content clicks from closing
+    document.getElementById('popover-content').addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+
+    // Add challenge form
+    document.getElementById('add-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const input = document.getElementById('new-item');
       const text = input.value.trim();
@@ -980,23 +1124,40 @@
       input.value = '';
       showToast('Challenge added');
       await loadAll();
-    }
+    });
 
-    async function vote(id, direction) {
-      await api(`/api/items/${id}/vote`, { method: 'POST', body: JSON.stringify({ direction }) });
+    // Add participant form
+    document.getElementById('add-participant-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const input = document.getElementById('new-participant');
+      const name = input.value.trim();
+      if (!name) return;
+      const res = await api('/api/participants', { method: 'POST', body: JSON.stringify({ name }) });
+      if (res.error) { showToast(res.error); return; }
+      input.value = '';
+      showToast(`${name} added`);
       await loadAll();
-    }
+    });
 
-    async function cycleTag(id, field, current) {
-      const next = (current + 1) % 4;
+    // ── Actions ──
+    async function setTag(id, field, value) {
+      openDropdown = null;
       await api(`/api/items/${id}/tags`, {
         method: 'PATCH',
-        body: JSON.stringify({ [field]: next })
+        body: JSON.stringify({ [field]: value })
       });
       await loadAll();
     }
 
-    async function completeCh(itemId, participant) {
+    async function doVote(id, direction) {
+      await api(`/api/items/${id}/vote`, {
+        method: 'POST',
+        body: JSON.stringify({ direction })
+      });
+      await loadAll();
+    }
+
+    async function doComplete(itemId, participant) {
       await api('/api/completions', {
         method: 'POST',
         body: JSON.stringify({ itemId, participant, completed: true })
@@ -1006,7 +1167,7 @@
       await loadAll();
     }
 
-    async function uncomplete(itemId, participant) {
+    async function doUncomplete(itemId, participant) {
       await api('/api/completions', {
         method: 'POST',
         body: JSON.stringify({ itemId, participant, completed: false })
@@ -1022,31 +1183,8 @@
         return;
       }
       container.innerHTML = participants.map(p =>
-        `<span class="participant-chip">${escapeHtml(p.name)}</span>`
+        `<span class="participant-chip">${esc(p.name)}</span>`
       ).join('');
-    }
-
-    async function addParticipant(e) {
-      e.preventDefault();
-      const input = document.getElementById('new-participant');
-      const name = input.value.trim();
-      if (!name) return;
-      const res = await api('/api/participants', { method: 'POST', body: JSON.stringify({ name }) });
-      if (res.error) { showToast(res.error); return; }
-      input.value = '';
-      showToast(`${name} added`);
-      await loadAll();
-    }
-
-    // ── Popover ──
-    function togglePopover() {
-      document.getElementById('popover-overlay').classList.toggle('open');
-    }
-
-    function closePopover(e) {
-      if (e.target === e.currentTarget) {
-        document.getElementById('popover-overlay').classList.remove('open');
-      }
     }
 
     // ── Utils ──
@@ -1059,18 +1197,18 @@
 
     function formatDate(dateStr) {
       const d = new Date(dateStr);
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return `${months[d.getMonth()]} ${d.getDate()}`;
     }
 
-    function escapeHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
+    function esc(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
     }
 
-    function escapeAttr(str) {
-      return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    function escA(str) {
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     // ── Init ──
