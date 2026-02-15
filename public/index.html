@@ -332,49 +332,46 @@
       background: var(--accent-light);
     }
 
-    /* Custom checkbox */
+    /* Date cell */
     .check-cell {
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .custom-check {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
+    .date-toggle {
+      min-width: 56px;
+      height: 30px;
       border: 2px solid var(--border);
       border-radius: 6px;
       background: var(--surface);
       cursor: pointer;
-      position: relative;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
       transition: all 0.15s;
+      padding: 0 8px;
     }
 
-    .custom-check:hover {
+    .date-toggle:hover {
       border-color: var(--accent);
+      background: var(--accent-light);
     }
 
-    .custom-check:checked {
+    .date-toggle.completed {
       background: var(--accent);
       border-color: var(--accent);
+      color: white;
     }
 
-    .custom-check:checked::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 6px;
-      width: 5px;
-      height: 10px;
-      border: solid white;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
+    .date-toggle.completed:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
 
-    .custom-check:active {
-      transform: scale(0.9);
+    .date-toggle:active {
+      transform: scale(0.95);
     }
 
     /* Section header */
@@ -617,7 +614,7 @@
 
       const completionMap = {};
       completions.forEach(c => {
-        completionMap[`${c.itemId}_${c.participant}`] = c.completed;
+        completionMap[`${c.itemId}_${c.participant}`] = c;
       });
 
       container.innerHTML = `
@@ -635,12 +632,16 @@
                   <td>${escapeHtml(item.text)}</td>
                   ${participants.map(p => {
                     const key = `${item._id}_${p.name}`;
-                    const checked = completionMap[key] ? 'checked' : '';
+                    const comp = completionMap[key];
+                    const isDone = comp && comp.completed;
+                    const dateStr = isDone ? formatDate(comp.completedAt) : '';
                     return `
                       <td>
                         <div class="check-cell">
-                          <input type="checkbox" class="custom-check" ${checked}
-                            onchange="toggleCompletion('${item._id}', '${escapeHtml(p.name)}', this.checked)" />
+                          <button class="date-toggle ${isDone ? 'completed' : ''}"
+                            onclick="toggleCompletion('${item._id}', '${escapeHtml(p.name)}', ${!isDone})">
+                            ${isDone ? dateStr : '—'}
+                          </button>
                         </div>
                       </td>`;
                   }).join('')}
@@ -674,6 +675,13 @@
         method: 'POST',
         body: JSON.stringify({ itemId, participant, completed })
       });
+      loadTracker();
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return `${months[d.getMonth()]} ${d.getDate()}`;
     }
 
     // --- Util ---
