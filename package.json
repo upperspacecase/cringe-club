@@ -4,7 +4,8 @@
   "description": "Courage the Cowardly Dog themed awkward challenge tracker",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
