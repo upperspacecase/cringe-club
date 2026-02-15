@@ -826,6 +826,10 @@
     // ── API ──
     async function api(url, opts) {
       const res = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...opts });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: res.statusText }));
+        throw new Error(err.details || err.error || `HTTP ${res.status}`);
+      }
       return res.json();
     }
 
@@ -837,11 +841,18 @@
           api('/api/participants'),
           api('/api/completions')
         ]);
-        items = itemsData;
-        participants = partsData;
-        completions = compsData;
+        items = Array.isArray(itemsData) ? itemsData : [];
+        participants = Array.isArray(partsData) ? partsData : [];
+        completions = Array.isArray(compsData) ? compsData : [];
       } catch (e) {
         console.error('Failed to load data:', e);
+        document.getElementById('challenges').innerHTML = `
+          <div class="empty-state">
+            <div class="icon">⚠️</div>
+            <p>Failed to load: ${esc(e.message)}</p>
+            <button style="margin-top:12px;padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;font-family:Inter,sans-serif;font-size:0.85rem" onclick="loadAll()">Retry</button>
+          </div>`;
+        return;
       }
       render();
       renderParticipantChips();
