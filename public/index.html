@@ -404,11 +404,40 @@
       flex-shrink: 0;
     }
 
-    .card-text {
+    .card-content {
       flex: 1;
+      min-width: 0;
+    }
+
+    .card-text {
       font-size: 0.88rem;
       line-height: 1.4;
       color: var(--text);
+    }
+
+    .card-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 5px;
+    }
+
+    .card-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 8px;
+      background: var(--green-light);
+      color: var(--green);
+      border-radius: 12px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
+    .card-pill .pill-check {
+      font-size: 0.6rem;
     }
 
     .card-tags {
@@ -1004,11 +1033,22 @@
             </div>`;
           }
 
+          // Completion pills for collapsed view
+          let pillsHtml = '';
+          if (itemCompletions.length) {
+            pillsHtml = '<div class="card-pills">' +
+              itemCompletions.map(c => `<span class="card-pill"><span class="pill-check">✓</span>${esc(c.participant)}</span>`).join('') +
+              '</div>';
+          }
+
           html += `
             <div class="card ${isExpanded ? 'expanded' : ''}" id="card-${item._id}">
               <div class="card-main" data-action="toggle-card" data-item="${item._id}">
                 <div class="card-rank">${globalRank}</div>
-                <div class="card-text">${esc(item.text)}</div>
+                <div class="card-content">
+                  <div class="card-text">${esc(item.text)}</div>
+                  ${pillsHtml}
+                </div>
                 <div class="card-tags">
                   <button class="tag-btn ${intensityVal === 0 ? 'empty' : ''}" data-action="open-tag-dropdown" data-item="${item._id}" data-field="intensity">
                     ${intensityVal > 0 ? INTENSITY_EMOJI[intensityVal] : '🔥'}
